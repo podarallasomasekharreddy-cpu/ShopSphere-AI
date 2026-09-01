@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+:root{
+  --gold:#D4AF37;
+  --bg:#050505;
+  --card:#111111;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  background:#050505;
+  color:white;
+  font-family:'Poppins',sans-serif;
+}
