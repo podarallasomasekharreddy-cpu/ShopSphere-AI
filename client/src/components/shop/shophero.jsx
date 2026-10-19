@@ -1,107 +1,120 @@
 import { motion } from "framer-motion";
-import { ChevronRight, Sparkles } from "lucide-react";
+import { Search } from "lucide-react";
 
-const GOLD = "#D4AF37";
-
-export default function ShopHero() {
+export default function ShopHero({ search, setSearch }) {
   return (
-    <section className="relative overflow-hidden border-b border-white/10 bg-[#050505]">
+    <section className="relative isolate min-h-[500px] overflow-hidden bg-[#050505] lg:min-h-[560px]">
+      {/* HERO IMAGE */}
       <div className="absolute inset-0">
-        <div className="absolute left-1/2 top-0 h-72 w-72 -translate-x-1/2 rounded-full bg-[#D4AF37]/10 blur-[120px]" />
+        <img
+          src="https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?auto=format&fit=crop&w=2200&q=90"
+          alt="Luxury fashion collection"
+          className="h-full w-full object-cover"
+        />
 
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,.04),transparent_60%)]" />
+        {/* Only a subtle readability gradient — image stays visible */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-black/10" />
+
+        <div className="absolute inset-0 bg-gradient-to-t from-[#050505]/80 via-transparent to-black/20" />
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-6 py-10 lg:px-8 lg:py-12">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="flex items-center gap-2 text-sm text-zinc-500">
-            <span>Home</span>
+      {/* HERO CONTENT */}
+      <div className="relative mx-auto flex min-h-[500px] max-w-7xl items-center px-5 py-24 lg:min-h-[560px] lg:px-8">
+        <div className="grid w-full items-center gap-12 lg:grid-cols-[1fr_420px]">
+          
+          {/* LEFT TEXT */}
+          <motion.div
+            initial={{ opacity: 0, x: -35 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            className="max-w-2xl"
+          >
+            <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.45em] text-[#D4AF37]">
+              Premium Collection
+            </p>
 
-            <ChevronRight className="h-4 w-4" />
+            <h1 className="text-5xl font-black leading-[0.95] tracking-tight text-white sm:text-6xl lg:text-7xl">
+              Luxury
+              <span className="block text-[#D4AF37]">
+                Collection
+              </span>
+            </h1>
 
-            <span style={{ color: GOLD }}>Shop</span>
-          </div>
+            <p className="mt-7 max-w-xl text-sm leading-7 text-white/85 sm:text-base">
+              Discover premium fashion, timeless accessories, and
+              sophisticated lifestyle essentials curated for those who
+              appreciate exceptional style.
+            </p>
 
-          <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/10 px-4 py-2">
-            <Sparkles
-              className="h-4 w-4"
-              style={{ color: GOLD }}
-            />
-
-            <span
-              className="text-xs font-semibold uppercase tracking-[0.22em]"
-              style={{ color: GOLD }}
-            >
-              Luxury Collection
-            </span>
-          </div>
-
-          <div className="mt-6 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-            <div className="max-w-3xl">
-              <h1 className="text-4xl font-black leading-tight text-white lg:text-5xl">
-                Discover Premium
-                <span
-                  className="block"
-                  style={{ color: GOLD }}
-                >
-                  Fashion & Lifestyle
-                </span>
-              </h1>
-
-              <p className="mt-4 max-w-2xl text-base leading-7 text-zinc-400">
-                Explore carefully curated collections featuring luxury fashion,
-                premium watches, footwear, accessories and everyday essentials
-                from leading global brands.
-              </p>
-            </div>
-
-            <div className="flex gap-8">
+            <div className="mt-8 flex items-center gap-8">
               <div>
-                <h3
-                  className="text-3xl font-bold"
-                  style={{ color: GOLD }}
-                >
+                <p className="text-2xl font-bold text-white">
                   500+
-                </h3>
-
-                <p className="mt-1 text-sm text-zinc-500">
+                </p>
+                <p className="mt-1 text-[10px] uppercase tracking-[0.2em] text-white/60">
                   Products
                 </p>
               </div>
 
-              <div>
-                <h3
-                  className="text-3xl font-bold"
-                  style={{ color: GOLD }}
-                >
-                  120+
-                </h3>
+              <div className="h-10 w-px bg-white/20" />
 
-                <p className="mt-1 text-sm text-zinc-500">
+              <div>
+                <p className="text-2xl font-bold text-white">
+                  120+
+                </p>
+                <p className="mt-1 text-[10px] uppercase tracking-[0.2em] text-white/60">
                   Brands
                 </p>
               </div>
 
-              <div>
-                <h3
-                  className="text-3xl font-bold"
-                  style={{ color: GOLD }}
-                >
-                  4.9★
-                </h3>
+              <div className="h-10 w-px bg-white/20" />
 
-                <p className="mt-1 text-sm text-zinc-500">
+              <div>
+                <p className="text-2xl font-bold text-[#D4AF37]">
+                  4.9
+                </p>
+                <p className="mt-1 text-[10px] uppercase tracking-[0.2em] text-white/60">
                   Rating
                 </p>
               </div>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+
+          {/* SEARCH */}
+          <motion.div
+            initial={{ opacity: 0, x: 35 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.15 }}
+            className="w-full lg:self-center"
+          >
+            <div className="rounded-[22px] border border-white/20 bg-black/40 p-3 shadow-2xl backdrop-blur-md">
+              <div className="flex h-14 items-center rounded-[15px] border border-white/10 bg-black/50 px-5 transition-all duration-300 focus-within:border-[#D4AF37]/60">
+                <Search
+                  size={20}
+                  className="mr-3 shrink-0 text-[#D4AF37]"
+                />
+
+                <input
+                  type="text"
+                  value={search || ""}
+                  onChange={(e) =>
+                    setSearch && setSearch(e.target.value)
+                  }
+                  placeholder="Search products, brands..."
+                  className="min-w-0 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-white/50"
+                />
+              </div>
+
+              <p className="px-2 pt-3 text-[10px] uppercase tracking-[0.18em] text-white/45">
+                Find your next luxury essential
+              </p>
+            </div>
+          </motion.div>
+        </div>
       </div>
+
+      {/* BOTTOM BLEND */}
+      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#050505] to-transparent" />
     </section>
   );
 }

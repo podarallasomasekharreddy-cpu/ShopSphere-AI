@@ -1,9 +1,14 @@
 import { Routes, Route } from "react-router-dom";
 
+import AdminLogin from "../pages/admin/AdminLogin";
 import HomePage from "../pages/HomePage";
 import Shop from "../pages/Shop";
 import Collections from "../pages/Collections";
 import AdminDashboard from "../pages/admin/AdminDashboard";
+import AdminOrders from "../pages/admin/AdminOrders";
+import AdminProducts from "../pages/admin/AdminProducts";
+import AdminCustomers from "../pages/admin/AdminCustomers";
+import AdminReturns from "../pages/admin/AdminReturns";
 import NewArrivals from "../pages/NewArrivals";
 import ProductDetails from "../pages/ProductDetails";
 import Wishlist from "../pages/Wishlist";
@@ -22,7 +27,10 @@ import SearchResults from "../pages/SearchResults";
 
 export default function AppRouter() {
   return (
+
+    
     <Routes>
+      <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/" element={<HomePage />} />
 
       <Route path="/shop" element={<Shop />} />
@@ -33,6 +41,23 @@ export default function AppRouter() {
       />
 
       <Route path="/admin" element={<AdminDashboard />} />
+
+      <Route
+  path="/admin/orders"
+  element={<AdminOrders />}
+/>
+
+<Route path="/admin/products" element={<AdminProducts />} />
+
+<Route
+  path="/admin/customers"
+  element={<AdminCustomers />}
+/>
+
+<Route
+  path="/admin/returns"
+  element={<AdminReturns />}
+/>
 
       <Route
         path="/new-arrivals"

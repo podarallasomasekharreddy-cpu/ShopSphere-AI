@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useCart } from "../../context/CartContext";
 import { useWishlist } from "../../context/WishlistContext";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
@@ -36,10 +36,36 @@ const navItems = [
   },
 ];
 
+const adminNavItems = [
+  {
+    name: "Dashboard",
+    path: "/admin",
+  },
+  {
+    name: "Products",
+    path: "/admin/products",
+  },
+  {
+    name: "Orders",
+    path: "/admin/orders",
+  },
+  {
+    name: "Customers",
+    path: "/admin/customers",
+  },
+  {
+    name: "Returns",
+    path: "/admin/returns",
+  },
+];
+
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+    const location = useLocation();
+  const isAdminPage = location.pathname.startsWith("/admin");
 
 const { cartCount } = useCart();
 const { wishlistCount } = useWishlist();
@@ -66,21 +92,18 @@ const { wishlistCount } = useWishlist();
         transition={{
           duration: 0.5,
         }}
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-          scrolled
-            ? "backdrop-blur-xl bg-[#050505]/90 border-b border-white/10 shadow-2xl"
-            : "bg-transparent"
-        }`}
+        className="fixed top-0 left-0 w-full z-50 px-4 lg:px-8 pt-4 transition-all duration-500"
       >
-        <div className="max-w-[1450px] mx-auto px-6 lg:px-12">
-          <div className="h-[88px] flex items-center justify-between">
+        <div className="max-w-[1450px] mx-auto rounded-[26px] border border-white/10 bg-[#111111]/55 backdrop-blur-2xl shadow-[0_20px_60px_rgba(0,0,0,.45)] px-6 lg:px-10">
+          <div className="h-[88px] flex items-center justify-between rounded-2xl">
 
             {/* Logo */}
 
             <Link
-              to="/"
-              className="group flex items-center gap-3 select-none"
-            >
+  to={isAdminPage ? "/admin" : "/"}
+  className="group flex items-center gap-3 select-none"
+  aria-label={isAdminPage ? "Admin Dashboard" : "ShopSpher Home"}
+>
               <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-[#D4AF37] to-[#9C7B18] flex items-center justify-center shadow-[0_0_35px_rgba(212,175,55,.35)]">
 
                 <span className="font-black text-black text-xl">
@@ -104,43 +127,91 @@ const { wishlistCount } = useWishlist();
 
             {/* Desktop */}
 
-            <nav className="hidden lg:flex items-center gap-9">
+            {!isAdminPage && (
+  <nav className="hidden lg:flex items-center gap-9">
 
               {navItems.map((item) => (
                 <NavLink
-                  key={item.name}
-                  to={item.path}
-                  className={({ isActive }) =>
-                    `relative text-[15px] tracking-wide transition duration-300 ${
-                      isActive
-                        ? "text-[#D4AF37]"
-                        : "text-gray-300 hover:text-white"
-                    }`
-                  }
-                >
-                  {({ isActive }) => (
-                    <>
-                      {item.name}
+  key={item.name}
+  to={item.path}
+  className="relative text-[15px] tracking-wide"
+>
+  {({ isActive }) => (
+    <div className="relative">
+      {isActive && (
+        <motion.div
+          layoutId="navIndicator"
+          transition={{
+            type: "spring",
+            stiffness: 380,
+            damping: 30,
+          }}
+          className="absolute inset-0 rounded-full border border-white/15 bg-white/[0.08] backdrop-blur-xl shadow-[inset_0_1px_0_rgba(255,255,255,.12),0_8px_30px_rgba(0,0,0,.20)]"
+        />
+      )}
 
-                      {isActive && (
-                        <motion.div
-                          layoutId="navIndicator"
-                          className="absolute left-0 -bottom-3 h-[2px] w-full bg-[#D4AF37]"
-                        />
-                      )}
-                    </>
-                  )}
-                </NavLink>
+      <span
+className={`relative z-10 block rounded-full px-5 py-2.5 transition-all duration-300 hover:bg-white/[0.05] hover:backdrop-blur-md ${          isActive
+            ? "text-[#D4AF37]"
+            : "text-gray-300 hover:text-white"
+        }`}
+      >
+        {item.name}
+      </span>
+    </div>
+  )}
+</NavLink>
               ))}
-            </nav>
+              </nav>
+)}
+
+{isAdminPage && (
+  <nav className="hidden lg:flex items-center gap-7">
+    {adminNavItems.map((item) => (
+      <NavLink
+        key={item.name}
+        to={item.path}
+        className="relative text-[15px] tracking-wide"
+      >
+        {({ isActive }) => (
+          <div className="relative">
+
+            {isActive && (
+              <motion.div
+                layoutId="adminNavIndicator"
+                transition={{
+                  type: "spring",
+                  stiffness: 380,
+                  damping: 30,
+                }}
+                className="absolute inset-0 rounded-full border border-white/15 bg-white/[0.08] backdrop-blur-xl shadow-[inset_0_1px_0_rgba(255,255,255,.12),0_8px_30px_rgba(0,0,0,.20)]"
+              />
+            )}
+
+            <span
+              className={`relative z-10 block rounded-full px-5 py-2.5 transition-all duration-300 hover:bg-white/[0.05] hover:backdrop-blur-md ${
+                isActive
+                  ? "text-[#D4AF37]"
+                  : "text-gray-300 hover:text-white"
+              }`}
+            >
+              {item.name}
+            </span>
+
+          </div>
+        )}
+      </NavLink>
+    ))}
+  </nav>
+)}
 
             {/* Right */}
 
-            <div className="hidden lg:flex items-center gap-3">
-
+{!isAdminPage && (
+  <div className="hidden lg:flex items-center gap-3">
               <button
   onClick={() => setSearchOpen(true)}
-  className="group w-11 h-11 rounded-full border border-white/10 bg-[#111111]/70 backdrop-blur-lg flex items-center justify-center hover:border-[#D4AF37] transition"
+  className="group w-11 h-11 rounded-full border border-white/15 bg-white/[0.07] backdrop-blur-2xl shadow-[inset_0_1px_0_rgba(255,255,255,.08),0_8px_30px_rgba(0,0,0,.25)] flex items-center justify-center hover:border-[#D4AF37] transition"
 >
   <Search
     size={19}
@@ -149,7 +220,7 @@ const { wishlistCount } = useWishlist();
 </button>
 
               <Link to="/wishlist">
-  <button className="relative group w-11 h-11 rounded-full border border-white/10 bg-[#111111]/70 backdrop-blur-lg flex items-center justify-center hover:border-[#D4AF37] transition">
+  <button className="relative group w-11 h-11 rounded-full border border-white/15 bg-white/[0.07] backdrop-blur-2xl shadow-[inset_0_1px_0_rgba(255,255,255,.08),0_8px_30px_rgba(0,0,0,.25)] flex items-center justify-center hover:border-[#D4AF37] transition">
 
     <Heart
       size={19}
@@ -164,7 +235,7 @@ const { wishlistCount } = useWishlist();
 </Link>
 
               <Link to="/cart">
-  <button className="relative group w-11 h-11 rounded-full border border-white/10 bg-[#111111]/70 backdrop-blur-lg flex items-center justify-center hover:border-[#D4AF37] transition">
+  <button className="relative group w-11 h-11 rounded-full border border-white/15 bg-white/[0.07] backdrop-blur-2xl shadow-[inset_0_1px_0_rgba(255,255,255,.08),0_8px_30px_rgba(0,0,0,.25)] flex items-center justify-center hover:border-[#D4AF37] transition">
 
     <ShoppingBag
       size={19}
@@ -179,7 +250,7 @@ const { wishlistCount } = useWishlist();
 </Link>
 
               <Link to="/account">
-  <button className="ml-2 px-5 py-3 rounded-full bg-gradient-to-r from-[#D4AF37] to-[#b58d15] text-black font-semibold hover:scale-105 transition duration-300 shadow-[0_0_35px_rgba(212,175,55,.25)] flex items-center gap-2">
+  <button className="ml-2 px-5 py-3 rounded-full bg-gradient-to-r from-[#D4AF37] to-[#b58d15] text-black font-semibold hover:scale-105 transition duration-300 shadow-[0_0_35px_rgba(212,175,55,.30)] flex items-center gap-2">
 
     <User size={18} />
 
@@ -188,7 +259,8 @@ const { wishlistCount } = useWishlist();
   </button>
 </Link>
 
-            </div>
+              </div>
+)}
 
             {/* Mobile */}
 
@@ -245,21 +317,41 @@ const { wishlistCount } = useWishlist();
               <div className="flex flex-col px-7 py-8 gap-7">
 
                 {navItems.map((item) => (
-                  <NavLink
-                    key={item.name}
-                    to={item.path}
-                    onClick={() => setMobileOpen(false)}
-                    className={({ isActive }) =>
-                      `text-lg transition ${
-                        isActive
-                          ? "text-[#D4AF37]"
-                          : "text-white"
-                      }`
-                    }
-                  >
-                    {item.name}
-                  </NavLink>
-                ))}
+  <NavLink
+    key={item.name}
+    to={item.path}
+    onClick={() => setMobileOpen(false)}
+    className="relative"
+  >
+    {({ isActive }) => (
+      <div className="relative">
+
+        {isActive && (
+          <motion.div
+            layoutId="mobileNavIndicator"
+            transition={{
+              type: "spring",
+              stiffness: 380,
+              damping: 30,
+            }}
+            className="absolute inset-0 rounded-2xl border border-white/10 bg-white/[0.08] backdrop-blur-xl"
+          />
+        )}
+
+        <span
+          className={`relative z-10 block rounded-2xl px-5 py-3 text-lg transition-all duration-300 ${
+            isActive
+              ? "text-[#D4AF37]"
+              : "text-white hover:bg-white/[0.05]"
+          }`}
+        >
+          {item.name}
+        </span>
+
+      </div>
+    )}
+  </NavLink>
+))}
 
                 <Link
   to="/account"

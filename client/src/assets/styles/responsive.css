@@ -1,0 +1,185 @@
+
+/* ==========================================
+   ShopSpher — Responsive Layout
+   Preserves the existing black & gold design
+   ========================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body,
+#root {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: 0;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+img,
+video {
+  max-width: 100%;
+}
+
+button,
+input,
+textarea,
+select {
+  max-width: 100%;
+  font: inherit;
+}
+
+button {
+  touch-action: manipulation;
+}
+
+main,
+section,
+header,
+footer,
+nav,
+article,
+aside {
+  min-width: 0;
+}
+
+/* Prevent long text from breaking the layout */
+h1,
+h2,
+h3,
+p {
+  overflow-wrap: break-word;
+}
+
+/* Allow grid and flex children to shrink */
+.grid > *,
+.flex > * {
+  min-width: 0;
+}
+
+/* ---------- Tablets and smaller laptops ---------- */
+
+@media (max-width: 1100px) {
+  main {
+    max-width: 100%;
+  }
+
+  img {
+    object-position: center;
+  }
+}
+
+/* ---------- Tablets and mobile ---------- */
+
+@media (max-width: 768px) {
+  html,
+  body,
+  #root {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  main,
+  section {
+    max-width: 100%;
+  }
+
+  /* Reduce horizontal spacing on smaller screens */
+  .px-6,
+  .px-8,
+  .px-10 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Reduce oversized vertical spacing */
+  .py-20 {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  .py-24 {
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+  }
+
+  .pt-32 {
+    padding-top: 7rem;
+  }
+
+  .pt-28 {
+    padding-top: 6.5rem;
+  }
+
+  /* Responsive headings */
+  h1 {
+    font-size: clamp(2rem, 7vw, 3.5rem);
+    line-height: 1.1;
+  }
+
+  h2 {
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    line-height: 1.2;
+  }
+
+  /* Prevent fixed-width elements from overflowing */
+  [class*="w-["] {
+    max-width: 100%;
+  }
+
+  /* Comfortable form controls */
+  input,
+  textarea,
+  select {
+    min-width: 0;
+  }
+
+  /* Keep product image proportions controlled by their containers */
+  img {
+    max-width: 100%;
+  }
+}
+
+/* ---------- Narrow mobile phones ---------- */
+
+@media (max-width: 480px) {
+  .px-4,
+  .px-5,
+  .px-6,
+  .px-8,
+  .px-10 {
+    padding-left: 0.875rem;
+    padding-right: 0.875rem;
+  }
+
+  .gap-10 {
+    gap: 1.5rem;
+  }
+
+  .gap-8 {
+    gap: 1.25rem;
+  }
+
+  .rounded-\[30px\],
+  .rounded-\[34px\] {
+    border-radius: 1.25rem;
+  }
+
+  button {
+    min-height: 40px;
+  }
+}

@@ -1,18 +1,87 @@
+
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import {
-  ChevronRight,
-  Sparkles,
-  User,
   Mail,
   Lock,
   Eye,
+  EyeOff,
+  User,
+  Sparkles,
   Apple,
 } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 
 const GOLD = "#D4AF37";
+
+const headline = (text) =>
+  text.split("").map((letter, index) => ({
+    letter,
+    index,
+  }));
+
+function AnimatedWord({ text, className, delay = 0 }) {
+  return (
+    <motion.div
+      className={className}
+      initial="hidden"
+      animate="visible"
+      variants={{
+        hidden: {},
+        visible: {
+          transition: {
+            delayChildren: delay,
+            staggerChildren: 0.075,
+          },
+        },
+      }}
+      aria-label={text}
+    >
+      {headline(text).map(({ letter, index }) => (
+        <motion.span
+          key={`${letter}-${index}`}
+          className={`inline-block ${
+            letter === "!" ? "origin-bottom" : ""
+          }`}
+          animate={
+            letter === "!"
+              ? { rotate: [0, 12, -8, 8, -4, 0] }
+              : undefined
+          }
+          transition={
+            letter === "!"
+              ? {
+                  duration: 1.2,
+                  repeat: Infinity,
+                  repeatDelay: 0.5,
+                  ease: "easeInOut",
+                }
+              : undefined
+          }
+          variants={{
+            hidden: {
+              opacity: 0,
+              y: 24,
+              rotateX: -70,
+            },
+            visible: {
+              opacity: 1,
+              y: 0,
+              rotateX: 0,
+              transition: {
+                duration: 0.4,
+                ease: "easeOut",
+              },
+            },
+          }}
+        >
+          {letter === " " ? "\u00A0" : letter}
+        </motion.span>
+      ))}
+    </motion.div>
+  );
+}
 
 export default function Register() {
   const navigate = useNavigate();
@@ -20,19 +89,36 @@ export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [socialNotice, setSocialNotice] = useState("");
+
+  const handleSocialLogin = (provider) => {
+    setSocialNotice(
+      `${provider} sign-up is coming soon! Please register using your email and password for now.`
+    );
+  };
 
   const handleRegister = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
+    setError("");
+    setSocialNotice("");
 
-  console.log("CREATE ACCOUNT BUTTON CLICKED");
-
-  setError("");
-
-    if (!name || !email || !password) {
+    if (!name.trim() || !email.trim() || !password || !confirmPassword) {
       setError("Please fill in all fields.");
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters.");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
       return;
     }
 
@@ -47,8 +133,8 @@ export default function Register() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            name,
-            email,
+            name: name.trim(),
+            email: email.trim(),
             password,
           }),
         }
@@ -74,175 +160,287 @@ export default function Register() {
   };
 
   return (
-    <main className="min-h-screen bg-[#050505] text-white">
-      <section className="border-b border-white/10 pt-28">
-        <div className="mx-auto max-w-7xl px-6 py-10">
-          <div className="flex items-center gap-2 text-sm text-zinc-500">
-            <span>Home</span>
+    <main className="min-h-screen bg-[#050505] text-white lg:pt-24">
+      <section className="mx-auto flex min-h-screen max-w-[1600px] items-center px-5 pb-8 pt-28 sm:px-8 lg:min-h-[calc(100vh-6rem)] lg:px-12 lg:py-8">
+        <div className="mx-auto grid w-full max-w-7xl items-center gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
+          {/* LEFT: ANIMATED SHOPSPHER BRANDING */}
+          <div className="relative flex min-h-[240px] flex-col justify-center overflow-hidden rounded-[28px] border border-white/10 bg-[#0C0C0C] px-6 py-8 sm:px-10 lg:min-h-[500px] lg:border-0 lg:bg-transparent lg:px-0 lg:py-10">
+            <div className="pointer-events-none absolute inset-0 lg:inset-y-0 lg:left-[-15%] lg:right-[-8%]">
+              <img
+                src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1400&q=85"
+                alt="Luxury fashion boutique"
+                className="h-full w-full object-cover opacity-35"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#050505]/90 via-[#050505]/65 to-[#050505]/40" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#050505]/80 via-transparent to-[#050505]/30" />
+            </div>
 
-            <ChevronRight size={15} />
+            <motion.div
+              initial={{ opacity: 0, x: -25 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7 }}
+              className="relative z-10"
+            >
+              <div className="mb-5 flex items-center gap-2">
+                <Sparkles size={16} color={GOLD} />
+                <span className="text-[10px] font-semibold uppercase tracking-[0.35em] text-[#D4AF37] sm:text-xs">
+                  Your Style. Your World.
+                </span>
+              </div>
 
-            <span style={{ color: GOLD }}>
-              Register
-            </span>
+              <div className="overflow-hidden">
+                <AnimatedWord
+                  text="SHOP"
+                  className="text-5xl font-black leading-[0.95] tracking-[0.04em] text-white sm:text-7xl lg:text-8xl xl:text-9xl"
+                />
+              </div>
+
+              <div className="mt-2 overflow-hidden">
+                <AnimatedWord
+                  text="SPHER.!"
+                  delay={0.4}
+                  className="text-5xl font-black leading-[0.95] tracking-[-0.04em] text-[#D4AF37] sm:text-7xl lg:text-8xl xl:text-9xl"
+                />
+              </div>
+
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: 100 }}
+                transition={{ duration: 0.8, delay: 1.3 }}
+                className="mt-7 h-1 rounded-full bg-[#D4AF37]"
+              />
+
+              <motion.p
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.1 }}
+                className="mt-6 max-w-md text-sm leading-7 text-zinc-300 sm:text-base"
+              >
+                Discover luxury. Experience the extraordinary.
+                Your next favourite find starts here.
+              </motion.p>
+
+              <p className="mt-8 text-[10px] font-medium uppercase tracking-[0.3em] text-white/45">
+                Luxury commerce · Redefined
+              </p>
+            </motion.div>
           </div>
 
-          <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/10 px-4 py-2">
-            <Sparkles
-              size={16}
-              color={GOLD}
-            />
+          {/* RIGHT: REGISTRATION FORM */}
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className="mx-auto w-full max-w-[480px] rounded-[26px] border border-white/10 bg-[#0D0D0D] p-5 shadow-2xl sm:p-8 lg:p-9"
+          >
+            <div className="mb-6">
+              <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.3em] text-[#D4AF37]">
+                Become a Member
+              </p>
 
-            <span className="text-xs font-semibold uppercase tracking-[0.22em] text-[#D4AF37]">
-              Create Account
-            </span>
-          </div>
+              <h1 className="text-2xl font-black tracking-tight sm:text-3xl">
+                Create Your Account
+              </h1>
 
-          <h1 className="mt-6 text-5xl font-black">
-            Join ShopSpher
-          </h1>
-
-          <p className="mt-4 max-w-2xl text-lg text-zinc-400">
-            Create your premium shopping account and enjoy
-            luxury collections, faster checkout and exclusive
-            member benefits.
-          </p>
-        </div>
-      </section>
-
-      <section className="mx-auto flex max-w-7xl items-center justify-center px-6 py-16">
-        <motion.div
-          initial={{ opacity: 0, y: 35 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="w-full max-w-xl rounded-[34px] border border-white/10 bg-white/5 p-10 backdrop-blur-2xl"
-        >
-          <h2 className="text-3xl font-black">
-            Create Your Account
-          </h2>
-
-          <p className="mt-3 text-zinc-400">
-            Become a member and unlock the complete ShopSpher
-            experience.
-          </p>
-
-          <div className="mt-8 space-y-6">
-            <div>
-              <label className="mb-3 block text-sm font-semibold">
-                Full Name
-              </label>
-
-              <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-[#0F0F0F] px-5 py-4">
-                <User
-                  size={20}
-                  className="text-[#D4AF37]"
-                />
-
-               <input
-  type="text"
-  placeholder="Enter your full name"
-  value={name}
-  onChange={(e) => setName(e.target.value)}
-  className="w-full bg-transparent outline-none"
-/>
-              </div>
+              <p className="mt-2 text-sm leading-6 text-zinc-400">
+                Join ShopSpher and discover your premium shopping
+                experience.
+              </p>
             </div>
 
-            <div>
-              <label className="mb-3 block text-sm font-semibold">
-                Email Address
-              </label>
+            <form onSubmit={handleRegister} className="space-y-4">
+              <div>
+                <label
+                  htmlFor="register-name"
+                  className="mb-2 block text-sm font-semibold"
+                >
+                  Full Name
+                </label>
 
-              <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-[#0F0F0F] px-5 py-4">
-                <Mail
-                  size={20}
-                  className="text-[#D4AF37]"
-                />
+                <div className="flex h-12 items-center gap-3 rounded-xl border border-white/10 bg-[#080808] px-4 transition focus-within:border-[#D4AF37]/60">
+                  <User size={18} className="shrink-0 text-[#D4AF37]" />
 
-                <input
-  type="email"
-  placeholder="Enter your email"
-  value={email}
-  onChange={(e) => setEmail(e.target.value)}
-  className="w-full bg-transparent outline-none"
-/>
+                  <input
+                    id="register-name"
+                    type="text"
+                    autoComplete="name"
+                    placeholder="Enter your full name"
+                    required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full bg-transparent text-sm outline-none placeholder:text-zinc-500"
+                  />
+                </div>
               </div>
-            </div>
 
-            <div>
-              <label className="mb-3 block text-sm font-semibold">
-                Password
-              </label>
+              <div>
+                <label
+                  htmlFor="register-email"
+                  className="mb-2 block text-sm font-semibold"
+                >
+                  Email Address
+                </label>
 
-              <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-[#0F0F0F] px-5 py-4">
-                <Lock
-                  size={20}
-                  className="text-[#D4AF37]"
-                />
+                <div className="flex h-12 items-center gap-3 rounded-xl border border-white/10 bg-[#080808] px-4 transition focus-within:border-[#D4AF37]/60">
+                  <Mail size={18} className="shrink-0 text-[#D4AF37]" />
 
-                <input
-  type={showPassword ? "text" : "password"}
-  placeholder="Create password"
-  value={password}
-  onChange={(e) => setPassword(e.target.value)}
-  className="w-full bg-transparent outline-none"
-/>
-
-                <Eye
-  size={20}
-  onClick={() => setShowPassword(!showPassword)}
-  className="cursor-pointer text-zinc-500"
-/>
+                  <input
+                    id="register-email"
+                    type="email"
+                    autoComplete="email"
+                    placeholder="Enter your email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full bg-transparent text-sm outline-none placeholder:text-zinc-500"
+                  />
+                </div>
               </div>
-            </div>
-                       {error && (
-  <p className="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">
-    {error}
-  </p>
-)}
 
-<button
-  type="button"
-  onClick={handleRegister}
-  disabled={loading}
-  className="w-full rounded-2xl bg-[#D4AF37] py-4 text-lg font-bold text-black transition hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60"
->
-  {loading ? "Creating Account..." : "Create Account"}
-</button>
+              <div>
+                <label
+                  htmlFor="register-password"
+                  className="mb-2 block text-sm font-semibold"
+                >
+                  Password
+                </label>
 
-            <div className="my-8 flex items-center gap-4">
+                <div className="flex h-12 items-center gap-3 rounded-xl border border-white/10 bg-[#080808] px-4 transition focus-within:border-[#D4AF37]/60">
+                  <Lock size={18} className="shrink-0 text-[#D4AF37]" />
+
+                  <input
+                    id="register-password"
+                    type={showPassword ? "text" : "password"}
+                    autoComplete="new-password"
+                    placeholder="Create password"
+                    minLength={6}
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full min-w-0 bg-transparent text-sm outline-none placeholder:text-zinc-500"
+                  />
+
+                  <button
+                    type="button"
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="shrink-0 text-zinc-500 transition hover:text-[#D4AF37]"
+                  >
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <label
+                  htmlFor="register-confirm-password"
+                  className="mb-2 block text-sm font-semibold"
+                >
+                  Confirm Password
+                </label>
+
+                <div className="flex h-12 items-center gap-3 rounded-xl border border-white/10 bg-[#080808] px-4 transition focus-within:border-[#D4AF37]/60">
+                  <Lock size={18} className="shrink-0 text-[#D4AF37]" />
+
+                  <input
+                    id="register-confirm-password"
+                    type={showConfirmPassword ? "text" : "password"}
+                    autoComplete="new-password"
+                    placeholder="Re-enter your password"
+                    minLength={6}
+                    required
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="w-full min-w-0 bg-transparent text-sm outline-none placeholder:text-zinc-500"
+                  />
+
+                  <button
+                    type="button"
+                    aria-label={
+                      showConfirmPassword
+                        ? "Hide confirm password"
+                        : "Show confirm password"
+                    }
+                    onClick={() =>
+                      setShowConfirmPassword(!showConfirmPassword)
+                    }
+                    className="shrink-0 text-zinc-500 transition hover:text-[#D4AF37]"
+                  >
+                    {showConfirmPassword ? (
+                      <EyeOff size={18} />
+                    ) : (
+                      <Eye size={18} />
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {error && (
+                <p
+                  role="alert"
+                  className="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400"
+                >
+                  {error}
+                </p>
+              )}
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full rounded-xl bg-[#D4AF37] py-3.5 text-sm font-bold text-black transition duration-300 hover:bg-[#E5C454] disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {loading ? "Creating Account..." : "Create Account"}
+              </button>
+            </form>
+
+            <div className="my-5 flex items-center gap-3">
               <div className="h-px flex-1 bg-white/10" />
-
-              <span className="text-xs uppercase tracking-[0.2em] text-zinc-500">
+              <span className="text-[10px] uppercase tracking-[0.2em] text-zinc-500">
                 Or sign up with
               </span>
-
               <div className="h-px flex-1 bg-white/10" />
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-2">
-              <button className="flex items-center justify-center gap-3 rounded-2xl border border-white/10 bg-white/5 py-4 transition hover:border-[#D4AF37]">
-                <FcGoogle size={22} />
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                onClick={() => handleSocialLogin("Google")}
+                className="flex h-11 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] text-sm transition hover:border-[#D4AF37]/50"
+              >
+                <FcGoogle size={20} />
                 Google
               </button>
 
-              <button className="flex items-center justify-center gap-3 rounded-2xl border border-white/10 bg-white/5 py-4 transition hover:border-[#D4AF37]">
-                <Apple size={22} />
+              <button
+                type="button"
+                onClick={() => handleSocialLogin("Apple")}
+                className="flex h-11 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] text-sm transition hover:border-[#D4AF37]/50"
+              >
+                <Apple size={18} />
                 Apple
               </button>
             </div>
 
-            <p className="mt-8 text-center text-zinc-400">
+            {socialNotice && (
+              <p
+                role="status"
+                className="mt-4 rounded-xl border border-[#D4AF37]/20 bg-[#D4AF37]/10 px-4 py-3 text-center text-sm text-[#D4AF37]"
+              >
+                {socialNotice}
+              </p>
+            )}
+
+            <p className="mt-5 text-center text-sm text-zinc-400">
               Already have an account?{" "}
               <Link
-  to="/login"
-  className="font-semibold text-[#D4AF37] hover:underline"
->
-  Sign In
-</Link>
+                to="/login"
+                className="font-semibold text-[#D4AF37] hover:underline"
+              >
+                Sign In
+              </Link>
             </p>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </section>
     </main>
   );

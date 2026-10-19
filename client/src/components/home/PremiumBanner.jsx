@@ -1,7 +1,10 @@
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
 export default function PremiumBanner() {
+  const navigate = useNavigate();
+
   return (
     <section className="bg-[#050505] py-32">
 
@@ -16,7 +19,7 @@ export default function PremiumBanner() {
         >
 
           <img
-            src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1800&auto=format&fit=crop"
+            src="/images/virat-kohli.png"
             alt="Luxury Collection"
             className="absolute inset-0 w-full h-full object-cover"
           />
@@ -49,8 +52,11 @@ export default function PremiumBanner() {
 
             </p>
 
-            <button className="mt-12 inline-flex items-center gap-3 rounded-full bg-[#D4AF37] px-8 py-4 font-semibold text-black transition duration-300 hover:scale-105 hover:shadow-[0_0_40px_rgba(212,175,55,.35)]">
-
+<button
+  type="button"
+  onClick={() => navigate("/shop")}
+  className="mt-12 inline-flex items-center gap-3 rounded-full bg-[#D4AF37] px-8 py-4 font-semibold text-black transition duration-300 hover:scale-105 hover:shadow-[0_0_40px_rgba(212,175,55,.35)]"
+>
               Explore Collection
 
               <ArrowRight size={18} />

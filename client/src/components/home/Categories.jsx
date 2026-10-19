@@ -1,179 +1,151 @@
+
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import {
   Watch,
   Shirt,
-  Laptop,
+  ShoppingBag,
+  Footprints,
   Gem,
-  Armchair,
-  Headphones,
   ArrowRight,
 } from "lucide-react";
 
 const categories = [
   {
-    title: "Luxury Watches",
-    subtitle: "Swiss Excellence",
-    icon: Watch,
-    image:
-      "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?q=80&w=1200&auto=format&fit=crop",
-  },
-  {
-    title: "Premium Fashion",
-    subtitle: "New Collection",
+    title: "Men's Collection",
+    category: "Men",
+    subtitle: "Modern Masculinity",
     icon: Shirt,
     image:
-      "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1516257984-b1b4d707412e?q=80&w=1200&auto=format&fit=crop",
   },
   {
-    title: "Luxury Tech",
-    subtitle: "Future Ready",
-    icon: Laptop,
+    title: "Women's Collection",
+    category: "Women",
+    subtitle: "Effortless Elegance",
+    icon: ShoppingBag,
     image:
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1200&auto=format&fit=crop",
   },
   {
-    title: "Jewellery",
-    subtitle: "Hand Crafted",
+    title: "Luxury Accessories",
+    category: "Accessories",
+    subtitle: "The Finishing Touch",
     icon: Gem,
     image:
       "https://images.unsplash.com/photo-1617038220319-276d3cfab638?q=80&w=1200&auto=format&fit=crop",
   },
   {
-    title: "Luxury Living",
-    subtitle: "Modern Interior",
-    icon: Armchair,
+    title: "Premium Footwear",
+    category: "Shoes",
+    subtitle: "Step Into Style",
+    icon: Footprints,
     image:
-      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200&auto=format&fit=crop",
   },
   {
-    title: "Premium Audio",
-    subtitle: "Immersive Sound",
-    icon: Headphones,
+    title: "Luxury Watches",
+    category: "Watches",
+    subtitle: "Timeless Precision",
+    icon: Watch,
     image:
-      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?q=80&w=1200&auto=format&fit=crop",
   },
 ];
 
 export default function Categories() {
+  const navigate = useNavigate();
+
+  const openCategory = (category) => {
+    navigate(`/shop?category=${encodeURIComponent(category)}`);
+  };
+
   return (
-    <section className="bg-[#050505] py-32">
-
-      <div className="max-w-[1450px] mx-auto px-6 lg:px-12">
-
+    <section className="bg-[#050505] py-12 sm:py-16">
+      <div className="mx-auto max-w-[1450px] px-5 lg:px-12">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: .6 }}
-          className="text-center mb-20"
+          transition={{ duration: 0.5 }}
+          className="mb-10 text-center"
         >
-
-          <span className="uppercase tracking-[0.35em] text-[#D4AF37] text-sm">
-
-            Shop By Category
-
+          <span className="text-sm uppercase tracking-[0.35em] text-[#D4AF37]">
+            Shop by Category
           </span>
 
-          <h2 className="mt-6 text-5xl lg:text-6xl font-black text-white">
-
+          <h2 className="mt-4 text-3xl font-black text-white sm:text-4xl lg:text-5xl">
             Curated Luxury Collections
-
           </h2>
 
-          <p className="mt-6 text-[#A7A7A7] max-w-3xl mx-auto leading-8">
-
-            Discover premium collections crafted for elegance,
-            innovation and timeless luxury.
-
+          <p className="mx-auto mt-4 max-w-3xl leading-7 text-[#A7A7A7]">
+            Discover signature collections across fashion, accessories,
+            footwear and timeless watches.
           </p>
-
         </motion.div>
 
-        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
-
+        <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {categories.map((item, index) => {
-
             const Icon = item.icon;
+            const wideCard = false;
 
             return (
-
-              <motion.div
-
-                key={item.title}
-
-                initial={{ opacity: 0, y: 50 }}
-
+              <motion.article
+                key={item.category}
+                initial={{ opacity: 0, y: 25 }}
                 whileInView={{ opacity: 1, y: 0 }}
-
                 viewport={{ once: true }}
-
-                transition={{
-                  delay: index * .08,
-                  duration: .5,
+                transition={{ delay: index * 0.06, duration: 0.4 }}
+                whileHover={{ y: -4 }}
+                onClick={() => openCategory(item.category)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    openCategory(item.category);
+                  }
                 }}
-
-                whileHover={{
-                  y: -12,
-                }}
-
-                className="group relative overflow-hidden rounded-[34px] border border-white/10 h-[470px]"
-
+                role="button"
+                tabIndex={0}
+                aria-label={`Explore ${item.title}`}
+                className={`group relative h-[330px] cursor-pointer overflow-hidden rounded-[24px] border border-white/10 bg-[#111111] sm:h-[360px] lg:h-[390px] ${
+                  wideCard ? "lg:col-span-2" : "lg:col-span-1"
+                }`}
               >
-
                 <img
                   src={item.image}
                   alt={item.title}
-                  className="absolute inset-0 w-full h-full object-cover transition duration-700 group-hover:scale-110"
+                  loading="lazy"
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
 
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent"/>
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/5" />
 
-                <div className="absolute top-7 left-7 w-14 h-14 rounded-2xl bg-black/40 backdrop-blur-xl border border-white/10 flex items-center justify-center">
-
-                  <Icon
-                    size={28}
-                    className="text-[#D4AF37]"
-                  />
-
+                <div className="absolute left-4 top-4 flex h-11 w-11 items-center justify-center rounded-xl border border-white/15 bg-black/50 backdrop-blur-md sm:left-5 sm:top-5">
+                  <Icon size={22} className="text-[#D4AF37]" />
                 </div>
 
-                <div className="absolute bottom-8 left-8 right-8">
-
-                  <span className="uppercase tracking-[0.3em] text-[#D4AF37] text-xs">
-
+                <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5">
+                  <span className="text-[10px] uppercase tracking-[0.2em] text-[#D4AF37] sm:text-xs">
                     {item.subtitle}
-
                   </span>
 
-                  <h3 className="mt-3 text-3xl font-bold text-white">
-
+                  <h3 className="mt-2 text-xl font-bold leading-tight text-white sm:text-2xl">
                     {item.title}
-
                   </h3>
 
-                  <button className="flex items-center gap-3 mt-7 text-white group-hover:text-[#D4AF37] transition">
-
+                  <div className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-white transition-colors group-hover:text-[#D4AF37]">
                     Explore Collection
-
                     <ArrowRight
-                      size={18}
-                      className="group-hover:translate-x-2 transition"
+                      size={17}
+                      className="transition-transform duration-300 group-hover:translate-x-1"
                     />
-
-                  </button>
-
+                  </div>
                 </div>
-
-              </motion.div>
-
+              </motion.article>
             );
-
           })}
-
         </div>
-
       </div>
-
     </section>
   );
 }

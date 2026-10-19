@@ -5,135 +5,193 @@ import { useCart } from "../../context/CartContext";
 import { useWishlist } from "../../context/WishlistContext";
 
 export default function ProductCard({ product }) {
-
   const navigate = useNavigate();
+  const { addToCart } = useCart();
 
-const { addToCart } = useCart();
-const {
-  wishlistItems,
-  addToWishlist,
-  removeFromWishlist,
-} = useWishlist();
-const isWishlisted = wishlistItems.some(
-  (item) => item.id === product.id
-);
+  const {
+    wishlistItems,
+    addToWishlist,
+    removeFromWishlist,
+  } = useWishlist();
+
+  const isWishlisted = wishlistItems.some(
+    (item) => item.id === product.id
+  );
 
   return (
     <motion.div
-  whileHover={{ y: -10 }}
-  transition={{ duration: 0.35 }}
-  onClick={() => navigate(`/product/${product.id}`)}
-  className="group cursor-pointer overflow-hidden rounded-[28px] border border-white/10 bg-[#111111]"
->
-      <div className="relative overflow-hidden">
+      whileHover={{ y: -6 }}
+      transition={{ duration: 0.25 }}
+      onClick={() => navigate(`/product/${product.id}`)}
+      className="group flex h-full cursor-pointer flex-col overflow-hidden rounded-[20px] border border-white/10 bg-[#111111] transition-shadow duration-300 hover:border-white/20 hover:shadow-xl"
+    >
+      {/* IMAGE */}
+
+      <div className="relative h-[240px] shrink-0 overflow-hidden bg-[#0b0b0b]">
         <img
           src={product.image}
           alt={product.title}
-          className="h-[340px] w-full object-cover transition duration-700 group-hover:scale-110"
+          className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
         />
 
-        <button className="absolute right-5 top-5 flex h-12 w-12 items-center justify-center rounded-full bg-black/50 backdrop-blur-md transition hover:bg-[#D4AF37] hover:text-black">
-          <Heart size={20} />
-        </button>
+        {product.badge && (
+          <div className="absolute left-3 top-3 rounded-full bg-[#D4AF37] px-3 py-1.5 text-[9px] font-bold uppercase tracking-[0.16em] text-black">
+            {product.badge}
+          </div>
+        )}
 
-        <div className="absolute left-5 top-5 rounded-full bg-[#D4AF37] px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-black">
-          {product.badge}
-        </div>
+        {/* TOP WISHLIST */}
+
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+
+            if (isWishlisted) {
+              removeFromWishlist(product.id);
+            } else {
+              addToWishlist(product);
+            }
+          }}
+          className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-black/60 text-white backdrop-blur-md transition-all duration-300 hover:border-[#D4AF37] hover:bg-[#D4AF37] hover:text-black"
+        >
+          <Heart
+            size={16}
+            fill={isWishlisted ? "#D4AF37" : "none"}
+            className={
+              isWishlisted
+                ? "text-[#D4AF37]"
+                : "text-white"
+            }
+          />
+        </button>
       </div>
 
-      <div className="space-y-4 p-6">
-        <p className="text-sm uppercase tracking-[0.25em] text-[#D4AF37]">
+      {/* CONTENT */}
+
+      <div className="flex flex-1 flex-col p-4">
+
+        {/* BRAND */}
+
+        <p className="min-h-[18px] text-[10px] font-semibold uppercase tracking-[0.22em] text-[#D4AF37]">
           {product.brand}
         </p>
 
-        <h3 className="text-2xl font-bold text-white">
+        {/* TITLE */}
+
+        <h3 className="mt-1.5 min-h-[48px] line-clamp-2 text-lg font-bold leading-6 text-white">
           {product.title}
         </h3>
 
-        <div className="flex items-center gap-2">
+        {/* RATING */}
+
+        <div className="mt-2 flex h-5 items-center gap-1.5">
           <Star
-            size={18}
+            size={15}
             fill="#D4AF37"
-            className="text-[#D4AF37]"
+            className="shrink-0 text-[#D4AF37]"
           />
 
-          <span className="text-white">
+          <span className="text-xs font-medium text-white">
             {product.rating}
           </span>
 
-          <span className="text-[#888]">
+          <span className="text-xs text-[#777]">
             ({product.reviews})
           </span>
         </div>
 
-        <p className="line-clamp-2 text-[#A5A5A5]">
+        {/* DESCRIPTION */}
+
+        <p className="mt-2 min-h-[40px] line-clamp-2 text-xs leading-5 text-[#A5A5A5]">
           {product.description}
         </p>
-        <div className="flex items-center justify-between">
-  <span
-    className={`rounded-full px-3 py-1 text-xs font-semibold ${
-      product.inStock
-        ? "bg-emerald-500/20 text-emerald-400"
-        : "bg-red-500/20 text-red-400"
-    }`}
-  >
-    {product.inStock ? "In Stock" : "Out of Stock"}
-  </span>
 
-  <button className="text-sm font-semibold text-[#D4AF37] transition hover:text-white">
-    Quick View
-  </button>
-</div>
+        {/* STOCK + QUICK VIEW */}
 
-        <div className="flex items-end justify-between pt-3">
+        <div className="mt-3 flex h-6 items-center justify-between">
+          <span
+            className={`rounded-full px-2.5 py-1 text-[9px] font-semibold ${
+              product.inStock
+                ? "bg-emerald-500/15 text-emerald-400"
+                : "bg-red-500/15 text-red-400"
+            }`}
+          >
+            {product.inStock
+              ? "In Stock"
+              : "Out of Stock"}
+          </span>
+
+          <button
+            onClick={(e) => e.stopPropagation()}
+            className="text-xs font-semibold text-[#D4AF37] transition hover:text-white"
+          >
+            Quick View
+          </button>
+        </div>
+
+        {/* PRICE */}
+
+        <div className="mt-3 flex min-h-[48px] items-end justify-between">
           <div>
-            <p className="text-3xl font-black text-[#D4AF37]">
-              ${product.price}
+            <p className="text-xl font-black leading-none text-[#D4AF37]">
+              ₹{product.price}
             </p>
 
-            <p className="text-[#666666] line-through">
-              ${product.oldPrice}
-            </p>
+            {product.oldPrice && (
+              <p className="mt-1.5 text-xs text-[#666666] line-through">
+                ₹{product.oldPrice}
+              </p>
+            )}
           </div>
+        </div>
 
-          <div className="flex gap-3">
-  <button
-  onClick={(e) => {
-    e.stopPropagation();
+        {/* ACTIONS */}
 
-    if (isWishlisted) {
-      removeFromWishlist(product.id);
-    } else {
-      addToWishlist(product);
-    }
-  }}
-  className="rounded-full border border-white/10 p-3 text-white transition hover:border-[#D4AF37]"
->
-  <Heart
-    size={18}
-    fill={isWishlisted ? "#D4AF37" : "none"}
-    className={
-      isWishlisted
-        ? "text-[#D4AF37]"
-        : "hover:text-[#D4AF37]"
-    }
-  />
-</button>
+        <div className="mt-4 flex h-10 gap-2">
 
-  <button
-  onClick={(e) => {
-    e.stopPropagation();
-    addToCart({
-      ...product,
-      quantity: 1,
-    });
-  }}
-  className="flex items-center gap-2 rounded-full bg-[#D4AF37] px-5 py-3 font-semibold text-black transition hover:scale-105"
->
-    <ShoppingBag size={18} />
-    Add to Cart
-  </button>
-</div>
+          {/* WISHLIST */}
+
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+
+              if (isWishlisted) {
+                removeFromWishlist(product.id);
+              } else {
+                addToWishlist(product);
+              }
+            }}
+            className="flex w-10 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-transparent text-white transition-all duration-300 hover:border-[#D4AF37] hover:bg-[#D4AF37]/10"
+          >
+            <Heart
+              size={17}
+              fill={isWishlisted ? "#D4AF37" : "none"}
+              className={
+                isWishlisted
+                  ? "text-[#D4AF37]"
+                  : "text-white"
+              }
+            />
+          </button>
+
+          {/* ADD TO CART */}
+
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+
+              addToCart({
+                ...product,
+                quantity: 1,
+              });
+            }}
+            className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-[#D4AF37] px-3 text-xs font-bold text-black transition-all duration-300 hover:bg-[#e4c354] hover:shadow-lg"
+          >
+            <ShoppingBag size={16} />
+
+            <span>Add to Cart</span>
+          </button>
+
         </div>
       </div>
     </motion.div>

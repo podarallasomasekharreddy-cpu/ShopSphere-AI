@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Play } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function Hero() {
+    const navigate = useNavigate();
   return (
     <section className="relative overflow-hidden bg-[#050505] pt-28 lg:pt-36 pb-24">
 
@@ -53,8 +55,10 @@ export default function Hero() {
 
             <div className="flex flex-wrap gap-5 mt-12">
 
-              <button className="group flex items-center gap-3 rounded-full bg-[#D4AF37] text-black px-8 py-4 font-semibold hover:scale-105 duration-300 shadow-[0_0_40px_rgba(212,175,55,.30)]">
-
+<button
+  onClick={() => navigate("/shop")}
+  className="group flex items-center gap-3 rounded-full bg-[#D4AF37] text-black px-8 py-4 font-semibold hover:scale-105 duration-300 shadow-[0_0_40px_rgba(212,175,55,.30)]"
+>
                 Shop Collection
 
                 <ArrowRight
@@ -79,41 +83,7 @@ export default function Hero() {
 
             <div className="grid grid-cols-3 gap-8 mt-20">
 
-              <div>
-
-                <h2 className="text-4xl font-black text-white">
-                  25K+
-                </h2>
-
-                <p className="mt-2 text-[#A7A7A7]">
-                  Happy Customers
-                </p>
-
-              </div>
-
-              <div>
-
-                <h2 className="text-4xl font-black text-white">
-                  750+
-                </h2>
-
-                <p className="mt-2 text-[#A7A7A7]">
-                  Luxury Products
-                </p>
-
-              </div>
-
-              <div>
-
-                <h2 className="text-4xl font-black text-white">
-                  4.9★
-                </h2>
-
-                <p className="mt-2 text-[#A7A7A7]">
-                  Average Rating
-                </p>
-
-              </div>
+              
 
             </div>
 
@@ -140,30 +110,11 @@ export default function Hero() {
 
             <motion.div
 
-              animate={{
-                y: [0, -12, 0]
-              }}
-
-              transition={{
-                repeat: Infinity,
-                duration: 4
-              }}
-
-              className="absolute bottom-8 -left-10 bg-[#111111]/90 backdrop-blur-xl border border-white/10 rounded-3xl p-6"
+              
 
             >
 
-              <p className="text-[#A7A7A7] text-sm">
-                Featured Product
-              </p>
-
-              <h3 className="text-white font-bold mt-2">
-                Midnight Signature
-              </h3>
-
-              <p className="mt-2 text-[#D4AF37] font-bold">
-                $899
-              </p>
+              
 
             </motion.div>
 
