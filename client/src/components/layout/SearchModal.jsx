@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import allProducts from "../../data/products";
 
-const API_BASE = "http://localhost:5001";
+const API_BASE = "https://shopsphere-ai-zwey.onrender.com";
 
 const recentSearches = [
   "Nike Shoes",

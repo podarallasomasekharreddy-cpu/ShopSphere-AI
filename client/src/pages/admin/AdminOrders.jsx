@@ -32,7 +32,7 @@ export default function AdminOrders() {
       }
 
       const response = await fetch(
-        "http://localhost:5001/api/admin/orders",
+        "https://shopsphere-ai-zwey.onrender.com/api/admin/orders",
         {
           headers: {
             Authorization: `Bearer ${savedToken}`,
@@ -70,7 +70,7 @@ export default function AdminOrders() {
         sessionStorage.getItem("token");
 
       const response = await fetch(
-        `http://localhost:5001/api/admin/orders/${orderId}/status`,
+        `https://shopsphere-ai-zwey.onrender.com/api/admin/orders/${orderId}/status`,
         {
           method: "PUT",
           headers: {

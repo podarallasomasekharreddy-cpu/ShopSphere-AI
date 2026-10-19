@@ -66,7 +66,7 @@ export default function Addresses() {
       setLoading(true);
 
       const response = await fetch(
-        `http://localhost:5001/api/addresses/${userId}`
+        `https://shopsphere-ai-zwey.onrender.com/api/addresses/${userId}`
       );
 
       const data = await response.json();
@@ -125,7 +125,7 @@ export default function Addresses() {
 
     try {
       const response = await fetch(
-        "http://localhost:5001/api/addresses",
+        "https://shopsphere-ai-zwey.onrender.com/api/addresses",
         {
           method: "POST",
           headers: {

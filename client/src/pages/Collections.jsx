@@ -8,7 +8,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 const GOLD = "#D4AF37";
-const API_URL = "http://localhost:5001/api/online-products";
+const API_URL = "https://shopsphere-ai-zwey.onrender.com/api/online-products";
 
 function formatCategory(category) {
   return String(category)

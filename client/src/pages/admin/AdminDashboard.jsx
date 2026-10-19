@@ -43,7 +43,7 @@ export default function AdminDashboard() {
         }
 
         const response = await fetch(
-          "http://localhost:5001/api/admin/dashboard",
+          "https://shopsphere-ai-zwey.onrender.com/api/admin/dashboard",
           {
             headers: {
               Authorization: `Bearer ${savedToken}`,

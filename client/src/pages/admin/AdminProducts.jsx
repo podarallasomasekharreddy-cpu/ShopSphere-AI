@@ -62,7 +62,7 @@ const uploadImages = async () => {
   });
 
   const response = await fetch(
-    "http://localhost:5001/api/admin/upload-images",
+    "https://shopsphere-ai-zwey.onrender.com/api/admin/upload-images",
     {
       method: "POST",
       headers: {
@@ -96,8 +96,8 @@ const saveProduct = async () => {
     };
 
     const url = editingProduct
-      ? `http://localhost:5001/api/admin/products/${editingProduct.id}`
-      : "http://localhost:5001/api/admin/products";
+      ? `https://shopsphere-ai-zwey.onrender.com/api/admin/products/${editingProduct.id}`
+      : "https://shopsphere-ai-zwey.onrender.com/api/admin/products";
 
     const response = await fetch(url, {
       method: editingProduct ? "PUT" : "POST",
@@ -166,7 +166,7 @@ const loadProducts = async () => {
 
     // Import/update DummyJSON products in MySQL first
     const importResponse = await fetch(
-      "http://localhost:5001/api/admin/import-dummyjson",
+      "https://shopsphere-ai-zwey.onrender.com/api/admin/import-dummyjson",
       {
         method: "POST",
         headers: {
@@ -185,7 +185,7 @@ const loadProducts = async () => {
 
     // Load all products: existing products + imported products
     const response = await fetch(
-      "http://localhost:5001/api/products"
+      "https://shopsphere-ai-zwey.onrender.com/api/products"
     );
 
     const data = await response.json();
@@ -840,7 +840,7 @@ const loadProducts = async () => {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        `http://localhost:5001/api/admin/products/${product.id}`,
+        `https://shopsphere-ai-zwey.onrender.com/api/admin/products/${product.id}`,
         {
           method: "DELETE",
           headers: {

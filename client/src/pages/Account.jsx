@@ -64,7 +64,7 @@ async function loadOrderWithProductDetails(order, userId) {
 
   try {
     const response = await fetch(
-      `http://localhost:5001/api/orders/${userId}/${order.id}`
+      `https://shopsphere-ai-zwey.onrender.com/api/orders/${userId}/${order.id}`
     );
     if (!response.ok) return order;
 
@@ -124,7 +124,7 @@ export default function Account() {
       setUser(parsedUser);
 
       // Fetch real orders from MySQL
-      fetch(`http://localhost:5001/api/orders/${parsedUser.id}`)
+      fetch(`https://shopsphere-ai-zwey.onrender.com/api/orders/${parsedUser.id}`)
         .then((response) => {
           if (!response.ok) {
             throw new Error("Failed to fetch orders");

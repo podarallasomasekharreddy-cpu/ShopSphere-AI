@@ -51,7 +51,7 @@ const resolveImageUrl = (image) => {
     return image;
   }
 
-  return `http://localhost:5001${
+  return `https://shopsphere-ai-zwey.onrender.com${
     image.startsWith("/") ? image : `/${image}`
   }`;
 };
@@ -82,8 +82,8 @@ const ProductDetails = () => {
         setProduct(null);
 
         const [regularResponse, onlineResponse] = await Promise.all([
-          fetch("http://localhost:5001/api/products"),
-          fetch("http://localhost:5001/api/online-products"),
+          fetch("https://shopsphere-ai-zwey.onrender.com/api/products"),
+          fetch("https://shopsphere-ai-zwey.onrender.com/api/online-products"),
         ]);
 
         const regularData = await regularResponse.json();

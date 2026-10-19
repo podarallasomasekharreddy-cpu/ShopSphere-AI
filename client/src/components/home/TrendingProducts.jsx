@@ -12,7 +12,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
-const API_URL = "http://localhost:5001/api/products";
+const API_URL = "https://shopsphere-ai-zwey.onrender.com/api/products";
 
 const currency = new Intl.NumberFormat("en-IN", {
   style: "currency",
@@ -43,7 +43,7 @@ const getImage = (product) => {
     return image;
   }
 
-  return `http://localhost:5001${
+  return `https://shopsphere-ai-zwey.onrender.com${
     image.startsWith("/") ? image : `/${image}`
   }`;
 };

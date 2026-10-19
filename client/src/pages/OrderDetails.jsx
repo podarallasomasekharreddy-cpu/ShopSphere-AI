@@ -73,7 +73,7 @@ const [error, setError] = useState("");
         const user = JSON.parse(savedUser);
 
         const response = await fetch(
-          `http://localhost:5001/api/orders/${userId || user.id}/${orderId}`
+          `https://shopsphere-ai-zwey.onrender.com/api/orders/${userId || user.id}/${orderId}`
         );
 
         const data = await response.json();
@@ -88,7 +88,7 @@ const [error, setError] = useState("");
         setItems(data.items || []);
 
         const trackingResponse = await fetch(
-  `http://localhost:5001/api/orders/${userId || user.id}/${orderId}/tracking`
+  `https://shopsphere-ai-zwey.onrender.com/api/orders/${userId || user.id}/${orderId}/tracking`
 );
 
 const trackingData = await trackingResponse.json();

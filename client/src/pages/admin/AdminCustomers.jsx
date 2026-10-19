@@ -27,7 +27,7 @@ export default function AdminCustomers() {
       const token = getToken();
 
       const response = await fetch(
-        "http://localhost:5001/api/admin/customers",
+        "https://shopsphere-ai-zwey.onrender.com/api/admin/customers",
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -34,7 +34,7 @@ export default function AdminLogin() {
       setLoading(true);
 
       const response = await fetch(
-        "http://localhost:5001/api/auth/login",
+        "https://shopsphere-ai-zwey.onrender.com/api/auth/login",
         {
           method: "POST",
           headers: {

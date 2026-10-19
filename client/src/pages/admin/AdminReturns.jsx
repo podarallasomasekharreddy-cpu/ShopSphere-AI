@@ -44,7 +44,7 @@ export default function AdminReturns() {
       const token = getToken();
 
       const response = await fetch(
-        "http://localhost:5001/api/admin/returns",
+        "https://shopsphere-ai-zwey.onrender.com/api/admin/returns",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -93,7 +93,7 @@ export default function AdminReturns() {
       const token = getToken();
 
       const response = await fetch(
-        `http://localhost:5001/api/return-requests/${requestId}/status`,
+        `https://shopsphere-ai-zwey.onrender.com/api/return-requests/${requestId}/status`,
         {
           method: "PUT",
           headers: {

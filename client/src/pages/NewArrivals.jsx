@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 
 const GOLD = "#D4AF37";
-const API = "http://localhost:5001";
+const API = "https://shopsphere-ai-zwey.onrender.com";
 
 const getArray = (data) =>
   Array.isArray(data)

@@ -8,7 +8,7 @@ import {
   MapPin, PackageCheck, ShieldCheck, Sparkles, Tag, Truck, WalletCards,
 } from "lucide-react";
 
-const API = "http://localhost:5001/api";
+const API = "https://shopsphere-ai-zwey.onrender.com/api";
 const GOLD = "#D4AF37";
 const money = (value) => `₹${Number(value || 0).toLocaleString("en-IN", { maximumFractionDigits: 2 })}`;
 

@@ -6,7 +6,7 @@ import { Search } from "lucide-react";
 import ProductCard from "../components/shop/ProductCard";
 import allProducts from "../data/products";
 
-const API_BASE = "http://localhost:5001";
+const API_BASE = "https://shopsphere-ai-zwey.onrender.com";
 
 export default function SearchResults() {
   const [searchParams] = useSearchParams();

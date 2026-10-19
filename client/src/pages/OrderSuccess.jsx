@@ -19,7 +19,7 @@ import {
 import { Link, useLocation, useParams } from "react-router-dom";
 
 const GOLD = "#D4AF37";
-const API = "http://localhost:5001/api";
+const API = "https://shopsphere-ai-zwey.onrender.com/api";
 
 const formatPrice = (value) =>
   `₹${Number(value || 0).toLocaleString("en-IN", {
